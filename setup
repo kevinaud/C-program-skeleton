@@ -17,18 +17,18 @@ do
 	if [ $version == "c89" ]
 	then
 		validInput="true"
-		sed -i -e "s/-std=c11/-std=$version/g" skeleton.makefile
-		sed -i -e "s/-std=c99/-std=$version/g" skeleton.makefile
+		sed -i -e "s/-std=c11/-std=$version/g" $name.makefile
+		sed -i -e "s/-std=c99/-std=$version/g" $name.makefile
 	elif [ $version == "c99" ]
 	then
 		validInput="true"
-		sed -i -e "s/-std=c11/-std=$version/g" skeleton.makefile
-		sed -i -e "s/-std=c89/-std=$version/g" skeleton.makefile
+		sed -i -e "s/-std=c11/-std=$version/g" $name.makefile
+		sed -i -e "s/-std=c89/-std=$version/g" $name.makefile
 	elif [ $version == "c11" ]
 	then
 		validInput="true"
-		sed -i -e "s/-std=c99/-std=$version/g" skeleton.makefile
-		sed -i -e "s/-std=c89/-std=$version/g" skeleton.makefile
+		sed -i -e "s/-std=c99/-std=$version/g" $name.makefile
+		sed -i -e "s/-std=c89/-std=$version/g" $name.makefile
 	else
 		echo ""
 		echo "Version not recognized."
