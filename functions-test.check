@@ -1,4 +1,90 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "functions.h"
 
 #test sum_function
 	fail_unless(sum(3, 2) == 5, "sum function borked");
+
+/**
+ * String Functions
+ */
+
+#test stringLengthTest
+	int i;
+	i = stringLength("test");
+
+	fail_unless(i == 4, "did not return 4 for the word test");
+	fail_unless(stringLength("") == 0, "did not return 0 for empty string");
+
+#test stringCopyTest
+	char* source;
+	char* dest;
+	source = "test";
+	dest = stringCopy(source);
+
+	fail_unless(strcmp(dest, source) == 0, "strcmp failed between dest and src");
+
+	free(dest);
+	dest = stringCopy("test");
+	fail_unless(strcmp(dest, source) == 0, "strcmp failed between dest and src");
+
+	free(dest);
+	dest = stringCopy("");
+	fail_unless(strcmp(dest, "") == 0, "strcmp failed between dest and an empty string");
+
+#test getSubString1
+	char* test;
+	test = "$var $var";
+	char* expected;
+	expected = "$var";
+	char* observed;
+	observed = getSubString(test, 0, 3);
+
+	fail_unless(strcmp(expected, observed) == 0, "expected was not equal to observed");
+	
+#test getSubString2
+	char* test;
+	test = "$var $var";
+	char* expected;
+	expected = "$var";
+	char* observed;
+	observed = getSubString(test, 5, 8);
+
+	fail_unless(strcmp(expected, observed) == 0, "expected was not equal to observed");
+
+#test concatString1
+	char* str1;
+	char* str2;
+	char* expected;
+	char* observed;
+
+	str1 = "var ";
+	str2 = "var";
+	expected = "var var";
+	observed = concatString(str1, str2);
+
+	fail_unless(strcmp(expected,observed) == 0, "not equal strings");
+
+#test concatString2
+	char* str1;
+	char* str2;
+	char* str3;
+	char* expected;
+	char* observed;
+	char* test;
+
+	test = "beginning middle end";
+	str1 = getSubString(test, 0, 9);
+	str2 = getSubString(test, 10, 15);
+	str3 = getSubString(test, 16, 19);
+	expected = "beginning middle end";
+	char* half;
+	half = concatString(str1, str2);
+	observed = concatString(half, str3);
+
+	fail_unless(strcmp(expected,observed) == 0, "not equal strings");
+	fail_unless(stringLength(test) == 20, "fail");	
+
+
+

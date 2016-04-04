@@ -6,13 +6,128 @@
 #include <check.h>
 
 #line 1 "functions-test.check"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "functions.h"
 
 START_TEST(sum_function)
 {
-#line 4
+#line 7
 	fail_unless(sum(3, 2) == 5, "sum function borked");
-	fail_unless(sum(-3, 2) == -1, "sum function borked");
+
+/**
+ * String Functions
+ */
+
+}
+END_TEST
+
+START_TEST(stringLengthTest)
+{
+#line 14
+	int i;
+	i = stringLength("test");
+
+	fail_unless(i == 4, "did not return 4 for the word test");
+	fail_unless(stringLength("") == 0, "did not return 0 for empty string");
+
+}
+END_TEST
+
+START_TEST(stringCopyTest)
+{
+#line 21
+	char* source;
+	char* dest;
+	source = "test";
+	dest = stringCopy(source);
+
+	fail_unless(strcmp(dest, source) == 0, "strcmp failed between dest and src");
+
+	free(dest);
+	dest = stringCopy("test");
+	fail_unless(strcmp(dest, source) == 0, "strcmp failed between dest and src");
+
+	free(dest);
+	dest = stringCopy("");
+	fail_unless(strcmp(dest, "") == 0, "strcmp failed between dest and an empty string");
+
+}
+END_TEST
+
+START_TEST(getSubString1)
+{
+#line 37
+	char* test;
+	test = "$var $var";
+	char* expected;
+	expected = "$var";
+	char* observed;
+	observed = getSubString(test, 0, 3);
+
+	fail_unless(strcmp(expected, observed) == 0, "expected was not equal to observed");
+	
+}
+END_TEST
+
+START_TEST(getSubString2)
+{
+#line 47
+	char* test;
+	test = "$var $var";
+	char* expected;
+	expected = "$var";
+	char* observed;
+	observed = getSubString(test, 5, 8);
+
+	fail_unless(strcmp(expected, observed) == 0, "expected was not equal to observed");
+
+}
+END_TEST
+
+START_TEST(concatString1)
+{
+#line 57
+	char* str1;
+	char* str2;
+	char* expected;
+	char* observed;
+
+	str1 = "var ";
+	str2 = "var";
+	expected = "var var";
+	observed = concatString(str1, str2);
+
+	fail_unless(strcmp(expected,observed) == 0, "not equal strings");
+
+}
+END_TEST
+
+START_TEST(concatString2)
+{
+#line 70
+	char* str1;
+	char* str2;
+	char* str3;
+	char* expected;
+	char* observed;
+	char* test;
+
+	test = "beginning middle end";
+	str1 = getSubString(test, 0, 9);
+	str2 = getSubString(test, 10, 15);
+	str3 = getSubString(test, 16, 19);
+	expected = "beginning middle end";
+	char* half;
+	half = concatString(str1, str2);
+	observed = concatString(half, str3);
+
+	fail_unless(strcmp(expected,observed) == 0, "not equal strings");
+	fail_unless(stringLength(test) == 20, "fail");	
+
+
+
 }
 END_TEST
 
@@ -25,6 +140,12 @@ int main(void)
 
     suite_add_tcase(s1, tc1_1);
     tcase_add_test(tc1_1, sum_function);
+    tcase_add_test(tc1_1, stringLengthTest);
+    tcase_add_test(tc1_1, stringCopyTest);
+    tcase_add_test(tc1_1, getSubString1);
+    tcase_add_test(tc1_1, getSubString2);
+    tcase_add_test(tc1_1, concatString1);
+    tcase_add_test(tc1_1, concatString2);
 
     srunner_run_all(sr, CK_ENV);
     nf = srunner_ntests_failed(sr);
