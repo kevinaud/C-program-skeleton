@@ -6,4 +6,4 @@ read -p "Enter name of project: " name
 sed -i -e "s/skeleton/$name/g" skeleton.makefile
 
 # replace skeleton in all filenames with user supplied string
-for filename in skeleton*; do newname=`echo $filename | sed 's/skeleton/$name/g'`; mv $filename $newname; done
+for filename in skeleton*; do newname=`echo $filename | sed "s/skeleton/$name/g"`; mv $filename $newname; done
